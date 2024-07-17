@@ -37,6 +37,8 @@ class FileLoggerDriver implements LoggerDriverInterface
             StringLogFormat::FORMAT_TEXT => $logEntry->toString(),
         };
 
+        // TODO: handle for folder creation
+        // TODO: Add error handling
         file_put_contents($this->filePath, $logEntryAsString . PHP_EOL, FILE_APPEND);
     }
 }
