@@ -1,12 +1,11 @@
 <?php
 
-
 namespace App\Errors;
 
-
+use Exception;
 use Throwable;
 
-class InvalidLogFormatError extends \Error
+class InvalidLogFormatException extends Exception
 {
     public function __construct(
         string $format = "",
