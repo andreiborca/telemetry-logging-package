@@ -6,8 +6,9 @@ use App\DTO\LogEntry;
 use App\Enums\LogLevel;
 use App\Errors\InvalidLogLevelError;
 use App\Interfaces\LoggerDriverInterface;
+use App\Interfaces\LoggerInterface;
 
-class Logger
+class Logger implements LoggerInterface
 {
      private LoggerDriverInterface $driver;
      private string $logLevel;
@@ -19,12 +20,12 @@ class Logger
         $this->setLogLevel($logLevel);
     }
 
-    public function setDriver(LoggerDriverInterface $driver)
+    public function setDriver(LoggerDriverInterface $driver): void
     {
         $this->driver = $driver;
     }
 
-    public function setLogLevel($logLevel)
+    public function setLogLevel($logLevel): void
     {
         if (!in_array($logLevel, LogLevel::getSupportedLogLevels())) {
             throw new InvalidLogLevelError($logLevel);
@@ -38,7 +39,7 @@ class Logger
         return $this->logLevel;
     }
 
-    public function log(string $level, string $message, array $metadata = [])
+    public function log(string $level, string $message, array $metadata = []): void
     {
         if (!in_array($level, LogLevel::getSupportedLogLevels())) {
             throw new InvalidLogLevelError($level);
