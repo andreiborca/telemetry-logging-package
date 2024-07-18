@@ -6,7 +6,10 @@
 >
     <testsuites>
         <testsuite name="Unit">
-            <directory>tests</directory>
+            <directory>tests\unit</directory>
+        </testsuite>
+        <testsuite name="Functional">
+            <directory>tests\functional</directory>
         </testsuite>
     </testsuites>
     <source>
