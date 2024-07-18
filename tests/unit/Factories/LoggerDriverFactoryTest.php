@@ -2,8 +2,9 @@
 
 namespace Tests\unit\Factories;
 
-use App\Enums\StringLogFormat;
 use App\Factories\LoggerDriverFactory;
+use App\LogDrivers\ConsoleLoggerDriver;
+use App\LogDrivers\FileLoggerDriver;
 use Exception;
 use PHPUnit\Framework\TestCase;
 
@@ -33,5 +34,19 @@ class LoggerDriverFactoryTest extends TestCase
 
         $factory = new LoggerDriverFactory();
         $factory->initDriver("file", []);
+    }
+
+    public function testInitConsoleLoggerDriver() {
+        $factory = new LoggerDriverFactory();
+        $driver = $factory->initDriver("console", []);
+
+        $this->assertEquals(ConsoleLoggerDriver::class, get_class($driver));
+    }
+
+    public function testInitFileLoggerDriver() {
+        $factory = new LoggerDriverFactory();
+        $driver = $factory->initDriver("file", ["path" => "config/telemetry_logging.yml"]);
+
+        $this->assertEquals(FileLoggerDriver::class, get_class($driver));
     }
 }
