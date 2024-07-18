@@ -57,4 +57,24 @@ class Logger
 
         $this->driver->log($logEntry);
     }
+
+    public function debug(string $message, array $metadata = []): void {
+        $this->log(LogLevel::DEBUG, $message, $metadata);
+    }
+
+    public function info(string $message, array $metadata = []): void {
+        $this->log(LogLevel::INFO, $message, $metadata);
+    }
+
+    public function warning(string $message, array $metadata = []): void {
+        $this->log(LogLevel::WARNING, $message, $metadata);
+    }
+
+    public function error(string $message, array $metadata = []): void {
+        $this->log(LogLevel::ERROR, $message, $metadata);
+    }
+
+    public function critical(string $message, array $metadata = []): void {
+        $this->log(LogLevel::CRITICAL, $message, $metadata);
+    }
 }
