@@ -3,8 +3,9 @@
 namespace App\Errors;
 
 use App\Enums\LogLevel;
+use Exception;
 
-class InvalidLogLevelError extends \Error
+class InvalidLogLevelException extends Exception
 {
     public function __construct($invalidLogLevel = "", $code = 0, \Throwable $previous = null)
     {

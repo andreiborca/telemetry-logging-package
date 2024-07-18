@@ -3,14 +3,14 @@
 namespace Tests\Unit\errors;
 
 use App\Enums\LogLevel;
-use App\Errors\InvalidLogLevelError;
+use App\Errors\InvalidLogLevelException;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @group errors
  * @group unit-test
  */
-final class InvalidLogLevelErrorTest extends TestCase
+final class InvalidLogLevelExceptionTest extends TestCase
 {
     public function testErrorMessage(): void
     {
@@ -22,7 +22,7 @@ final class InvalidLogLevelErrorTest extends TestCase
             implode(",", LogLevel::getSupportedLogLevels()),
         );
 
-        $error = new InvalidLogLevelError($invalidLogLevel);
+        $error = new InvalidLogLevelException($invalidLogLevel);
 
         $this->assertEquals($expectedErrMsg, $error->getMessage());
     }

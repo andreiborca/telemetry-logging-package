@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-use App\Errors\InvalidLogLevelError;
+use App\Errors\InvalidLogLevelException;
 
 abstract class LogLevel
 {
@@ -33,7 +33,7 @@ abstract class LogLevel
             "WARNING" => 2,
             "ERROR" => 3,
             "CRITICAL" => 4,
-            default => throw new InvalidLogLevelError($logLevel),
+            default => throw new InvalidLogLevelException($logLevel),
         };
     }
 }

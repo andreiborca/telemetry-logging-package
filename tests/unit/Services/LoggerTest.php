@@ -3,7 +3,7 @@
 namespace Tests\unit\Services;
 
 use App\Enums\LogLevel;
-use App\Errors\InvalidLogLevelError;
+use App\Errors\InvalidLogLevelException;
 use App\LogDrivers\FileLoggerDriver;
 use App\Services\Logger;
 use PHPUnit\Framework\TestCase;
@@ -18,7 +18,7 @@ class LoggerTest extends TestCase
     public function testConstructor(): void {
         $fileDriveMock = \Mockery::mock(FileLoggerDriver::class);
 
-        $this->expectException(InvalidLogLevelError::class);
+        $this->expectException(InvalidLogLevelException::class);
         new Logger($fileDriveMock, "INVALID_LOG_LEVEL");
     }
 
@@ -26,7 +26,7 @@ class LoggerTest extends TestCase
         $fileDriveMock = \Mockery::mock(FileLoggerDriver::class);
         $loggerService = new Logger($fileDriveMock);
 
-        $this->expectException(InvalidLogLevelError::class);
+        $this->expectException(InvalidLogLevelException::class);
         $loggerService->setLogLevel("INVALID_LOG_LEVEL");
     }
 
@@ -44,7 +44,7 @@ class LoggerTest extends TestCase
         $fileDriveMock = \Mockery::mock(FileLoggerDriver::class);
         $loggerService = new Logger($fileDriveMock);
 
-        $this->expectException(InvalidLogLevelError::class);
+        $this->expectException(InvalidLogLevelException::class);
         $loggerService->log(
             "INVALID_LOG_LEVEL",
             "Test error message",

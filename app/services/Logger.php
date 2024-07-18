@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\DTO\LogEntry;
 use App\Enums\LogLevel;
-use App\Errors\InvalidLogLevelError;
+use App\Errors\InvalidLogLevelException;
 use App\Interfaces\LoggerDriverInterface;
 use App\Interfaces\LoggerInterface;
 
@@ -28,7 +28,7 @@ class Logger implements LoggerInterface
     public function setLogLevel($logLevel): void
     {
         if (!in_array($logLevel, LogLevel::getSupportedLogLevels())) {
-            throw new InvalidLogLevelError($logLevel);
+            throw new InvalidLogLevelException($logLevel);
         }
 
         $this->logLevel = $logLevel;
@@ -42,7 +42,7 @@ class Logger implements LoggerInterface
     public function log(string $level, string $message, array $metadata = []): void
     {
         if (!in_array($level, LogLevel::getSupportedLogLevels())) {
-            throw new InvalidLogLevelError($level);
+            throw new InvalidLogLevelException($level);
         }
 
         if (LogLevel::toInt($level) < $this->logLevelSeverity) {
