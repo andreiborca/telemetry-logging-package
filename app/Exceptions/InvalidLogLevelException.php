@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Errors;
+namespace App\Exceptions;
 
 use App\Enums\LogLevel;
 use Exception;

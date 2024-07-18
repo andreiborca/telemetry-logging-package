@@ -5,7 +5,7 @@ namespace App\LogDrivers;
 
 
 use App\Enums\StringLogFormat;
-use App\Errors\InvalidLogFormatException;
+use App\Exceptions\InvalidLogFormatException;
 use App\Interfaces\LogEntryInterface;
 use App\Interfaces\LoggerDriverInterface;
 

@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\DTO\LogEntry;
 use App\Enums\LogLevel;
-use App\Errors\InvalidLogLevelException;
+use App\Exceptions\InvalidLogLevelException;
 use App\Interfaces\LoggerDriverInterface;
 use App\Interfaces\LoggerInterface;
 

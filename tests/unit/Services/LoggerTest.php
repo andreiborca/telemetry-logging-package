@@ -3,7 +3,7 @@
 namespace Tests\unit\Services;
 
 use App\Enums\LogLevel;
-use App\Errors\InvalidLogLevelException;
+use App\Exceptions\InvalidLogLevelException;
 use App\LogDrivers\FileLoggerDriver;
 use App\Services\Logger;
 use PHPUnit\Framework\TestCase;

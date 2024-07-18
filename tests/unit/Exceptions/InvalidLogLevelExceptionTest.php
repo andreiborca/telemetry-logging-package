@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\Unit\errors;
+namespace Tests\Unit\Exceptions;
 
 use App\Enums\LogLevel;
-use App\Errors\InvalidLogLevelException;
+use App\Exceptions\InvalidLogLevelException;
 use PHPUnit\Framework\TestCase;
 
 /**

@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\unit\errors;
+namespace Tests\unit\Exceptions;
 
 use App\Enums\StringLogFormat;
-use App\Errors\InvalidLogFormatException;
+use App\Exceptions\InvalidLogFormatException;
 use PHPUnit\Framework\TestCase;
 
 /**

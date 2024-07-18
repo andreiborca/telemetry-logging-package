@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-use App\Errors\InvalidLogLevelException;
+use App\Exceptions\InvalidLogLevelException;
 
 abstract class LogLevel
 {
