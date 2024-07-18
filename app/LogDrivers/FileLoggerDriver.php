@@ -15,19 +15,19 @@ class FileLoggerDriver implements LoggerDriverInterface
 
     public function __construct(
         string $filePath,
-        string $logFormat = StringLogFormat::FORMAT_TEXT,
+        string $format = StringLogFormat::FORMAT_TEXT,
     ) {
         $filePath = trim($filePath);
         if (empty($filePath)) {
             throw new Exception("Empty path for parameter filePath");
         }
 
-        if (!in_array($logFormat, StringLogFormat::getSupportedLogFormats())) {
-            throw new InvalidLogFormatError($logFormat, StringLogFormat::getSupportedLogFormats());
+        if (!in_array($format, StringLogFormat::getSupportedLogFormats())) {
+            throw new InvalidLogFormatError($format, StringLogFormat::getSupportedLogFormats());
         }
 
         $this->filePath = $filePath;
-        $this->format = $logFormat;
+        $this->format = $format;
     }
 
     public function log(LogEntryInterface $logEntry)

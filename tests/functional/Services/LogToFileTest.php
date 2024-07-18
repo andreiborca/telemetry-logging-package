@@ -52,6 +52,162 @@ class LogToFileTest extends TestCase
     }
 
     /**
+     * @dataProvider logEntryForLogLevelMethods
+     * @param array $logEntry
+     */
+    function testDebugMethod(array $logEntry): void {
+        $fileDrive = new FileLoggerDriver(
+            $this->logFilePath,
+            StringLogFormat::FORMAT_TEXT,
+        );
+        $loggerService = new Logger($fileDrive);
+
+        $loggerService->debug(
+            $logEntry["message"],
+            $logEntry["metadata"],
+        );
+
+        $expectedLogEntry = sprintf(
+            "[%s] %s (Metadata: %s)",
+            LogLevel::DEBUG,
+            $logEntry["message"],
+            '',
+        );
+
+        $this->assertFileExists($this->logFilePath);
+        $logFileContent = file_get_contents($this->logFilePath);
+        $this->assertStringContainsString(
+            $expectedLogEntry,
+            $logFileContent,
+        );
+    }
+
+    /**
+     * @dataProvider logEntryForLogLevelMethods
+     * @param array $logEntry
+     */
+    function testInfoMethod(array $logEntry): void {
+        $fileDrive = new FileLoggerDriver(
+            $this->logFilePath,
+            StringLogFormat::FORMAT_TEXT,
+        );
+        $loggerService = new Logger($fileDrive);
+
+        $loggerService->info(
+            $logEntry["message"],
+            $logEntry["metadata"],
+        );
+
+        $expectedLogEntry = sprintf(
+            "[%s] %s (Metadata: %s)",
+            LogLevel::INFO,
+            $logEntry["message"],
+            '',
+        );
+
+        $this->assertFileExists($this->logFilePath);
+        $logFileContent = file_get_contents($this->logFilePath);
+        $this->assertStringContainsString(
+            $expectedLogEntry,
+            $logFileContent,
+        );
+    }
+
+    /**
+     * @dataProvider logEntryForLogLevelMethods
+     * @param array $logEntry
+     */
+    function testWarningMethod(array $logEntry): void {
+        $fileDrive = new FileLoggerDriver(
+            $this->logFilePath,
+            StringLogFormat::FORMAT_TEXT,
+        );
+        $loggerService = new Logger($fileDrive);
+
+        $loggerService->warning(
+            $logEntry["message"],
+            $logEntry["metadata"],
+        );
+
+        $expectedLogEntry = sprintf(
+            "[%s] %s (Metadata: %s)",
+            LogLevel::WARNING,
+            $logEntry["message"],
+            '',
+        );
+
+        $this->assertFileExists($this->logFilePath);
+        $logFileContent = file_get_contents($this->logFilePath);
+        $this->assertStringContainsString(
+            $expectedLogEntry,
+            $logFileContent,
+        );
+    }
+
+    /**
+     * @dataProvider logEntryForLogLevelMethods
+     * @param array $logEntry
+     */
+    function testErrorMethod(array $logEntry): void {
+        $fileDrive = new FileLoggerDriver(
+            $this->logFilePath,
+            StringLogFormat::FORMAT_TEXT,
+        );
+        $loggerService = new Logger($fileDrive);
+
+        $loggerService->error(
+            $logEntry["message"],
+            $logEntry["metadata"],
+        );
+
+        $expectedLogEntry = sprintf(
+            "[%s] %s (Metadata: %s)",
+            LogLevel::ERROR,
+            $logEntry["message"],
+            '',
+        );
+
+        $this->assertFileExists($this->logFilePath);
+        $logFileContent = file_get_contents($this->logFilePath);
+        $this->assertStringContainsString(
+            $expectedLogEntry,
+            $logFileContent,
+        );
+    }
+
+    /**
+     * @dataProvider logEntryForLogLevelMethods
+     * @param array $logEntry
+     */
+    function testCriticalMethod(array $logEntry): void {
+        $fileDrive = new FileLoggerDriver(
+            $this->logFilePath,
+            StringLogFormat::FORMAT_TEXT,
+        );
+        $loggerService = new Logger($fileDrive);
+
+        $loggerService->critical(
+            $logEntry["message"],
+            $logEntry["metadata"],
+        );
+
+        $expectedLogEntry = sprintf(
+            "[%s] %s (Metadata: %s)",
+            LogLevel::CRITICAL,
+            $logEntry["message"],
+            '',
+        );
+
+        $this->assertFileExists($this->logFilePath);
+        $logFileContent = file_get_contents($this->logFilePath);
+        $this->assertStringContainsString(
+            $expectedLogEntry,
+            $logFileContent,
+        );
+    }
+
+
+    /**
      * @dataProvider logEntryScenarios
      * @param array $logEntry
      */
@@ -142,6 +298,18 @@ class LogToFileTest extends TestCase
                 [
                     "level" => "INFO",
                     "message" => "Test error message (3)",
+                    "metadata" => [],
+                ],
+            ],
+        ];
+    }
+
+    public static function logEntryForLogLevelMethods(): iterable
+    {
+        return [
+            [
+                [
+                    "message" => "Test log level method",
                     "metadata" => [],
                 ],
             ],
