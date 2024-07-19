@@ -12,6 +12,9 @@ abstract class LogLevel
     const ERROR = "ERROR";
     const CRITICAL = "CRITICAL";
 
+    /**
+     * @return array
+     */
     public static function getSupportedLogLevels() : array {
         $reflectionClass = new \ReflectionClass(LogLevel::class);
         $constants = $reflectionClass->getConstants();
@@ -24,6 +27,13 @@ abstract class LogLevel
         return $logLevels;
     }
 
+    /**
+     * @param string $logLevel
+     *
+     * @return int
+     *
+     * @throws InvalidLogLevelException
+     */
     public static function toInt(string $logLevel) : int {
         $asInt = null;
 

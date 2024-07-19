@@ -13,6 +13,14 @@ class FileLoggerDriver implements LoggerDriverInterface
     private string $filePath;
     private string $format;
 
+    /**
+     * FileLoggerDriver constructor.
+     *
+     * @param string $filePath
+     * @param string $format
+     *
+     * @throws InvalidLogFormatException
+     */
     public function __construct(
         string $filePath,
         string $format = StringLogFormat::FORMAT_TEXT,
@@ -30,6 +38,11 @@ class FileLoggerDriver implements LoggerDriverInterface
         $this->format = $format;
     }
 
+    /**
+     * @param LogEntryInterface $logEntry
+     *
+     * @return mixed|void
+     */
     public function log(LogEntryInterface $logEntry)
     {
         $logEntryAsString = match ($this->format) {

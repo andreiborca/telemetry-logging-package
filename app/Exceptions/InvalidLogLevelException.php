@@ -7,6 +7,13 @@ use Exception;
 
 class InvalidLogLevelException extends Exception
 {
+    /**
+     * InvalidLogLevelException constructor.
+     *
+     * @param string $invalidLogLevel
+     * @param int $code
+     * @param \Throwable|null $previous
+     */
     public function __construct($invalidLogLevel = "", $code = 0, \Throwable $previous = null)
     {
         $message = sprintf(
