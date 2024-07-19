@@ -5,7 +5,7 @@ namespace App\LogDrivers;
 
 
 use App\Enums\StringLogFormat;
-use App\Errors\InvalidLogFormatError;
+use App\Exceptions\InvalidLogFormatException;
 use App\Interfaces\LogEntryInterface;
 use App\Interfaces\LoggerDriverInterface;
 
@@ -17,7 +17,7 @@ class ConsoleLoggerDriver implements LoggerDriverInterface
         string $logFormat = StringLogFormat::FORMAT_TEXT,
     ) {
         if (!in_array($logFormat, StringLogFormat::getSupportedLogFormats())) {
-            throw new InvalidLogFormatError($logFormat, StringLogFormat::getSupportedLogFormats());
+            throw new InvalidLogFormatException($logFormat, StringLogFormat::getSupportedLogFormats());
         }
 
         $this->format = $logFormat;

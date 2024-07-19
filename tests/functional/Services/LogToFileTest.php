@@ -274,6 +274,84 @@ class LogToFileTest extends TestCase
         }
     }
 
+    public function testTransactionalLogging() {
+        $fileDrive = new FileLoggerDriver(
+            $this->logFilePath,
+            StringLogFormat::FORMAT_JSON,
+        );
+        $loggerService = new Logger($fileDrive);
+
+        $transactionMetadata = [
+            "isEnabled" => true,
+        ];
+        $traceId = $loggerService->startTransactionLogging(
+            "Start transaction logging",
+            $transactionMetadata,
+        );
+
+        $logEntries = [
+            [
+                "message" => "Log Transaction message (1)",
+                "metadata" => [
+                    "logIndex" => 1,
+                ]
+            ],
+            [
+                "message" => "Log Transaction message (2)",
+                "metadata" => [
+                    "logIndex" => 2,
+                ]
+            ],
+            [
+                "message" => "Log Transaction message (3)",
+                "metadata" => [
+                    "logIndex" => 3,
+                ]
+            ]
+
+        ];
+
+        foreach ($logEntries as $logEntry) {
+            $loggerService->updateTransactionLogging(
+                $logEntry["message"],
+                $logEntry["metadata"],
+            );
+        }
+
+        $loggerService->endTransactionLogging(
+            "End transaction logging",
+            [
+                "isEnabled" => false,
+            ],
+        );
+
+        $transactionMetadata["TraceId"] = $traceId;
+
+        $this->assertFileExists($this->logFilePath);
+        $logFileContent = file_get_contents($this->logFilePath);
+        foreach ($logEntry as $fieldName => $value) {
+            if ("metadata" === $fieldName) {
+                $value = array_merge($transactionMetadata, $value);
+                $value = json_encode($value);
+            }
+
+            $this->assertStringContainsString($value, $logFileContent);
+        }
+
+        $this->assertStringContainsString("Start transaction logging", $logFileContent);
+        $this->assertStringContainsString(json_encode($transactionMetadata), $logFileContent);
+
+        $transactionMetadata["isEnabled"] = false;
+        $this->assertStringContainsString("End transaction logging", $logFileContent);
+        $this->assertStringContainsString(json_encode($transactionMetadata), $logFileContent);
+
+        $occurrences = substr_count($logFileContent, $traceId);
+        $this->assertEquals(5, $occurrences);
+
+        $occurrences = substr_count($logFileContent, "INFO");
+        $this->assertEquals(5, $occurrences);
+    }
+
     public static function logEntryScenarios(): iterable
     {
         return [
