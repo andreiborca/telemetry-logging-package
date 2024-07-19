@@ -7,12 +7,16 @@ use App\Enums\LogLevel;
 use App\Exceptions\InvalidLogLevelException;
 use App\Interfaces\LoggerDriverInterface;
 use App\Interfaces\LoggerInterface;
+use Ramsey\Uuid\Uuid;
 
 class Logger implements LoggerInterface
 {
      private LoggerDriverInterface $driver;
      private string $logLevel;
      private int $logLevelSeverity;
+
+     # Transaction logging related properties
+     private array $transactionMetadata = [];
 
     public function __construct(LoggerDriverInterface $driver, $logLevel = LogLevel::DEBUG)
     {
@@ -77,5 +81,53 @@ class Logger implements LoggerInterface
 
     public function critical(string $message, array $metadata = []): void {
         $this->log(LogLevel::CRITICAL, $message, $metadata);
+    }
+
+    /**
+     * All logs created through transaction logging will be created with INFO level.
+     * To create logs for transaction use method named `updateTransactionLogging`.
+     * To end the transaction logging use method named `endTransactionLogging`
+     *
+     * @param string $message
+     * @param array $metadata The provided metadata information will be added to metadata field for all created logs
+     *                        during transactional logging
+     *
+     * @return string The transaction trace id.
+     *
+     * @throws InvalidLogLevelException
+     */
+    public function startTransactionLogging(string $message, array $metadata): string {
+        $this->transactionMetadata = $metadata;
+        $uuid = Uuid::uuid7();
+        $this->transactionMetadata["TraceId"] = $uuid->toString();
+
+        $this->log(LogLevel::INFO, $message, $this->transactionMetadata);
+
+        return $this->transactionMetadata["TraceId"];
+    }
+
+    /**
+     * @param string $message
+     * @param array $metadata
+     *
+     * @throws InvalidLogLevelException
+     */
+    public function updateTransactionLogging(string $message, array $metadata = []): void {
+        $logMetadata = array_merge($this->transactionMetadata, $metadata);
+        $this->log(LogLevel::INFO, $message, $logMetadata);
+    }
+
+    /**
+     * @param string $message
+     * @param array $metadata
+     *
+     * @throws InvalidLogLevelException
+     */
+    public function endTransactionLogging(string $message, array $metadata = []): void {
+        $logMetadata = array_merge($this->transactionMetadata, $metadata);
+        $this->log(LogLevel::INFO, $message, $logMetadata);
+
+        // Clear transaction context
+        $this->transactionMetadata = [];
     }
 }
