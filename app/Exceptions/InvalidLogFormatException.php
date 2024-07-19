@@ -7,6 +7,14 @@ use Throwable;
 
 class InvalidLogFormatException extends Exception
 {
+    /**
+     * InvalidLogFormatException constructor.
+     *
+     * @param string $format
+     * @param array $supportedFormats
+     * @param int $code     *
+     * @param Throwable|null $previous
+     */
     public function __construct(
         string $format = "",
         array $supportedFormats,

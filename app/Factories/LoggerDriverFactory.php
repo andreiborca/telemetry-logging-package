@@ -3,6 +3,7 @@
 namespace App\Factories;
 
 use App\Enums\StringLogFormat;
+use App\Exceptions\InvalidLogFormatException;
 use App\Interfaces\LoggerDriverFactoryInterface;
 use App\Interfaces\LoggerDriverInterface;
 use App\LogDrivers\ConsoleLoggerDriver;
@@ -34,6 +35,13 @@ class LoggerDriverFactory implements LoggerDriverFactoryInterface
         };
     }
 
+    /**
+     * @param array $driverConfiguration
+     *
+     * @return LoggerDriverInterface
+     *
+     * @throws InvalidLogFormatException
+     */
     public function initConsoleDriver(array $driverConfiguration): LoggerDriverInterface {
         $format = $driverConfiguration["format"] ?? StringLogFormat::FORMAT_TEXT;
         return new ConsoleLoggerDriver($format);

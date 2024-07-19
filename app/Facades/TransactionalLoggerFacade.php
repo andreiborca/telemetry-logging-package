@@ -7,6 +7,11 @@ use App\Interfaces\TransactionalLoggerInterface;
 use App\services\LoggingServiceProvider;
 use Exception;
 
+/**
+ * Class TransactionalLoggerFacade
+ *
+ * @package App\Facades
+ */
 class TransactionalLoggerFacade
 {
     private static TransactionalLoggerInterface $logger;
@@ -142,5 +147,4 @@ class TransactionalLoggerFacade
         }
         self::$logger->endTransactionLogging($message, $metadata);
     }
-
 }

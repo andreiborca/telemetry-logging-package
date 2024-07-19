@@ -11,24 +11,38 @@ use Ramsey\Uuid\Uuid;
 
 class Logger implements LoggerInterface
 {
-     private LoggerDriverInterface $driver;
-     private string $logLevel;
-     private int $logLevelSeverity;
+    private LoggerDriverInterface $driver;
+    private string $logLevel;
+    private int $logLevelSeverity;
 
-     # Transaction logging related properties
-     private array $transactionMetadata = [];
+    # Transaction logging related properties
+    private array $transactionMetadata = [];
 
+    /**
+     * Logger constructor.
+     * @param LoggerDriverInterface $driver
+     * @param string $logLevel
+     * @throws InvalidLogLevelException
+     */
     public function __construct(LoggerDriverInterface $driver, $logLevel = LogLevel::DEBUG)
     {
         $this->setDriver($driver);
         $this->setLogLevel($logLevel);
     }
 
+    /**
+     * @param LoggerDriverInterface $driver
+     */
     public function setDriver(LoggerDriverInterface $driver): void
     {
         $this->driver = $driver;
     }
 
+    /**
+     * @param $logLevel
+     *
+     * @throws InvalidLogLevelException
+     */
     public function setLogLevel($logLevel): void
     {
         if (!in_array($logLevel, LogLevel::getSupportedLogLevels())) {
@@ -39,10 +53,20 @@ class Logger implements LoggerInterface
         $this->logLevelSeverity = LogLevel::toInt($logLevel);
     }
 
+    /**
+     * @return string
+     */
     public function getLogLevel() : string {
         return $this->logLevel;
     }
 
+    /**
+     * @param string $level
+     * @param string $message
+     * @param array $metadata
+     *
+     * @throws InvalidLogLevelException
+     */
     public function log(string $level, string $message, array $metadata = []): void
     {
         if (!in_array($level, LogLevel::getSupportedLogLevels())) {
@@ -63,22 +87,52 @@ class Logger implements LoggerInterface
         $this->driver->log($logEntry);
     }
 
+    /**
+     * @param string $message
+     * @param array $metadata
+     *
+     * @throws InvalidLogLevelException
+     */
     public function debug(string $message, array $metadata = []): void {
         $this->log(LogLevel::DEBUG, $message, $metadata);
     }
 
+    /**
+     * @param string $message
+     * @param array $metadata
+     *
+     * @throws InvalidLogLevelException
+     */
     public function info(string $message, array $metadata = []): void {
         $this->log(LogLevel::INFO, $message, $metadata);
     }
 
+    /**
+     * @param string $message
+     * @param array $metadata
+     *
+     * @throws InvalidLogLevelException
+     */
     public function warning(string $message, array $metadata = []): void {
         $this->log(LogLevel::WARNING, $message, $metadata);
     }
 
+    /**
+     * @param string $message
+     * @param array $metadata
+     *
+     * @throws InvalidLogLevelException
+     */
     public function error(string $message, array $metadata = []): void {
         $this->log(LogLevel::ERROR, $message, $metadata);
     }
 
+    /**
+     * @param string $message
+     * @param array $metadata
+     *
+     * @throws InvalidLogLevelException
+     */
     public function critical(string $message, array $metadata = []): void {
         $this->log(LogLevel::CRITICAL, $message, $metadata);
     }

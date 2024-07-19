@@ -2,6 +2,7 @@
 
 namespace App\services;
 
+use App\Exceptions\InvalidLogLevelException;
 use App\Interfaces\LoggerDriverFactoryInterface;
 use App\Interfaces\LoggerInterface;
 use App\Interfaces\TransactionalLoggerInterface;
@@ -43,6 +44,9 @@ class LoggingServiceProvider
         $this->initializeLogger();
     }
 
+    /**
+     * @throws InvalidLogLevelException
+     */
     private function initializeLogger() {
         $defaultDriver = $this->config['default'];
         $driversConfig = $this->config['drivers'];
@@ -55,6 +59,9 @@ class LoggingServiceProvider
         $this->logger = new Logger($driver);
     }
 
+    /**
+     * @return LoggerInterface|TransactionalLoggerInterface
+     */
     public function getLogger(): LoggerInterface | TransactionalLoggerInterface {
         return $this->logger;
     }

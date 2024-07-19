@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\LogDrivers;
-
 
 use App\Enums\StringLogFormat;
 use App\Exceptions\InvalidLogFormatException;
@@ -13,6 +11,13 @@ class ConsoleLoggerDriver implements LoggerDriverInterface
 {
     private string $format;
 
+    /**
+     * ConsoleLoggerDriver constructor.
+     *
+     * @param string $logFormat
+     *
+     * @throws InvalidLogFormatException
+     */
     public function __construct(
         string $logFormat = StringLogFormat::FORMAT_TEXT,
     ) {
@@ -23,13 +28,17 @@ class ConsoleLoggerDriver implements LoggerDriverInterface
         $this->format = $logFormat;
     }
 
+    /**
+     * @param LogEntryInterface $logEntry
+     *
+     * @return mixed|void
+     */
     public function log(LogEntryInterface $logEntry)
     {
         $logEntryAsString = match ($this->format) {
             StringLogFormat::FORMAT_JSON => $logEntry->toJson(),
             StringLogFormat::FORMAT_TEXT => $logEntry->toString(),
         };
-
 
         echo $logEntryAsString . PHP_EOL;
     }
