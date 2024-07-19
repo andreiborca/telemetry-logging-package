@@ -4,6 +4,7 @@ namespace App\services;
 
 use App\Interfaces\LoggerDriverFactoryInterface;
 use App\Interfaces\LoggerInterface;
+use App\Interfaces\TransactionalLoggerInterface;
 use Exception;
 use Symfony\Component\Yaml\Yaml;
 
@@ -11,7 +12,7 @@ class LoggingServiceProvider
 {
     private array $config;
     private LoggerDriverFactoryInterface $driverFactory;
-    private LoggerInterface $logger;
+    private LoggerInterface | TransactionalLoggerInterface $logger;
 
     /**
      * LoggingServiceProvider constructor.
@@ -54,7 +55,7 @@ class LoggingServiceProvider
         $this->logger = new Logger($driver);
     }
 
-    public function getLogger(): LoggerInterface {
+    public function getLogger(): LoggerInterface | TransactionalLoggerInterface {
         return $this->logger;
     }
 }

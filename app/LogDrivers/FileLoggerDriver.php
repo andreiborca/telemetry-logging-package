@@ -3,7 +3,7 @@
 namespace App\LogDrivers;
 
 use App\Enums\StringLogFormat;
-use App\Errors\InvalidLogFormatError;
+use App\Exceptions\InvalidLogFormatException;
 use App\Interfaces\LogEntryInterface;
 use App\Interfaces\LoggerDriverInterface;
 use PHPUnit\Logging\Exception;
@@ -23,7 +23,7 @@ class FileLoggerDriver implements LoggerDriverInterface
         }
 
         if (!in_array($format, StringLogFormat::getSupportedLogFormats())) {
-            throw new InvalidLogFormatError($format, StringLogFormat::getSupportedLogFormats());
+            throw new InvalidLogFormatException($format, StringLogFormat::getSupportedLogFormats());
         }
 
         $this->filePath = $filePath;

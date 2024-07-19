@@ -3,7 +3,7 @@
 namespace Tests\unit\Enums;
 
 use App\Enums\LogLevel;
-use App\Errors\InvalidLogLevelError;
+use App\Exceptions\InvalidLogLevelException;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -32,7 +32,7 @@ final class LogLevelTest extends TestCase
 
     public function testConstantsValueToIntError(): void
     {
-        $this->expectException(InvalidLogLevelError::class);
+        $this->expectException(InvalidLogLevelException::class);
         LogLevel::toInt("INVALID_LOG_Level");
     }
 
