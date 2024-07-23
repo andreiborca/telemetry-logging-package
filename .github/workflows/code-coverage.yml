@@ -1,0 +1,22 @@
+name: Run Code Coverage Tests
+
+on:
+  workflow_call:
+
+jobs:
+  test-code-coverage:
+    name: Run Code Coverage Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v1
+
+      - name: Build Docker image
+        run: docker-compose build
+
+      - name: Run Code Coverage Tests
+        run: make test-code-coverage
