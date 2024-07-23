@@ -1,0 +1,22 @@
+name: Functional Tests
+
+on:
+  workflow_call:
+
+jobs:
+  test-functional:
+    name: Run Functional Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v1
+
+      - name: Build Docker image
+        run: docker-compose build
+
+      - name: Run Functional Tests
+        run: make test-functional
