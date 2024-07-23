@@ -13,10 +13,16 @@ on:
 jobs:
   call-unit-tests:
     uses: ./.github/workflows/unit-tests.yml
+    concurrency:
+      group: testing
+      cancel-in-progress: true
 
   call-functional-tests:
     needs: call-unit-tests
     uses: ./.github/workflows/functional-tests.yml
+    concurrency:
+      group: testing
+      cancel-in-progress: true
 
   call-code-coverage:
     needs: [call-unit-tests, call-functional-tests]
