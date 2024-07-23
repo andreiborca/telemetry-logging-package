@@ -1,0 +1,23 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - '**' # Matches all branches
+  pull_request:
+    branches:
+      - '**' # Matches all branches
+    types:
+      - opened
+
+jobs:
+  call-unit-tests:
+    uses: ./.github/workflows/unit-tests.yml
+
+  call-functional-tests:
+    needs: call-unit-tests
+    uses: ./.github/workflows/functional-tests.yml
+
+  call-code-coverage:
+    needs: [call-unit-tests, call-functional-tests]
+    uses: ./.github/workflows/code-coverage.yml
