@@ -1,5 +1,6 @@
 {
     "name": "andrei/telemetry-logging-package",
+    "type": "library",
     "license": "proprietary",
     "authors": [
         {
