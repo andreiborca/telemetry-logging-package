@@ -6,7 +6,7 @@ use App\DTO\LogEntry;
 use App\Enums\LogLevel;
 use App\Enums\StringLogFormat;
 use App\Interfaces\LogEntryInterface;
-use App\LogDrivers\FileLoggerDriver;
+use App\LogDrivers\ConsoleLoggerDriver;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -23,7 +23,7 @@ class ConsoleLoggerDriverTest extends TestCase
      */
     public function testJsonFormat(LogEntryInterface $logEntry): void
     {
-        $logDriver = new FileLoggerDriver(
+        $logDriver = new ConsoleLoggerDriver(
             StringLogFormat::FORMAT_JSON,
         );
 
@@ -32,15 +32,13 @@ class ConsoleLoggerDriverTest extends TestCase
             'level' => $logEntry->getLevel(),
             'message' => $logEntry->getMessage(),
             'metadata' => $logEntry->getMetadata(),
-        ]);
+        ]) . PHP_EOL;
 
-        // TODO: fix the test as it does not catch the output from echo
         // Capture the console output
-//        $this->expectOutputString($expectedLogEntry . PHP_EOL);
-
         ob_start();
         $logDriver->log($logEntry);
         $actualOutput = ob_get_clean();
+
         $this->assertSame($actualOutput,$expectedLogEntry);
     }
 
@@ -51,7 +49,7 @@ class ConsoleLoggerDriverTest extends TestCase
      */
     public function testTextFormat(LogEntryInterface $logEntry): void
     {
-        $logDriver = new FileLoggerDriver(
+        $logDriver = new ConsoleLoggerDriver(
             StringLogFormat::FORMAT_TEXT,
         );
 
@@ -68,15 +66,13 @@ class ConsoleLoggerDriverTest extends TestCase
             $logEntry->getLevel(),
             $logEntry->getMessage(),
             $formattedMetadata
-        );
+        ) . PHP_EOL;
 
-        // TODO: fix the test as it does not catch the output from echo
         // Capture the console output
-//        $this->expectOutputString($expectedLogEntry . PHP_EOL);
-
         ob_start();
         $logDriver->log($logEntry);
         $output = ob_get_clean();
+
         $this->assertSame($expectedLogEntry, $output);
     }
 
