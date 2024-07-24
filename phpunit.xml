@@ -4,12 +4,18 @@
          bootstrap="vendor/autoload.php"
          colors="true"
 >
+    <php>
+        <ini name="xdebug.mode" value="coverage" />
+        <ini name="xdebug.client_host" value="host.docker.internal" />
+        <server name="APP_ENV" value="testing"/>
+    </php>
+
     <testsuites>
         <testsuite name="Unit">
-            <directory>tests\unit</directory>
+            <directory>tests/unit</directory>
         </testsuite>
         <testsuite name="Functional">
-            <directory>tests\functional</directory>
+            <directory>tests/functional</directory>
         </testsuite>
     </testsuites>
     <source>
