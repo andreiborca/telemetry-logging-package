@@ -30,6 +30,11 @@ class FileLoggerDriver implements LoggerDriverInterface
         $this->format = $format;
     }
 
+	/**
+	 * @param LogEntryInterface $logEntry
+	 *
+	 * @throws \Exception
+	 */
     public function log(LogEntryInterface $logEntry)
     {
         $logEntryAsString = match ($this->format) {
@@ -37,8 +42,9 @@ class FileLoggerDriver implements LoggerDriverInterface
             StringLogFormat::FORMAT_TEXT => $logEntry->toString(),
         };
 
-        // TODO: handle for folder creation
-        // TODO: Add error handling
-        file_put_contents($this->filePath, $logEntryAsString . PHP_EOL, FILE_APPEND);
+        $result = file_put_contents($this->filePath, $logEntryAsString . PHP_EOL, FILE_APPEND);
+        if (false === $result) {
+        	throw new \Exception("Failed to write log entry to file." . json_encode($logEntry));
+		}
     }
 }
