@@ -2,10 +2,6 @@
   "name": "telemetry-logging",
   "version": "1.0.0",
   "description": "Telemetry Logging",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/boohoo-com/oms-model-sequelize"
-  },
   "author": "Andrei Borca",
   "license": "ISC",
   "devDependencies": {
