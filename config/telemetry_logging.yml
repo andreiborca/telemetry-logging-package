@@ -7,3 +7,12 @@ drivers:
   file:
     path: logs/logs.log
     format: json
+
+  sql:
+    driver: 'mysql'
+    host: 'localhost'
+    dbname: 'telemetry'
+    username: 'root'
+    password: 'password'
+    charset: 'utf8'
+    table: 'logs'

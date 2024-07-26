@@ -7,6 +7,7 @@ use App\Interfaces\LoggerDriverFactoryInterface;
 use App\Interfaces\LoggerDriverInterface;
 use App\LogDrivers\ConsoleLoggerDriver;
 use App\LogDrivers\FileLoggerDriver;
+use App\LogDrivers\SqlLoggerDriver;
 use Exception;
 
 class LoggerDriverFactory implements LoggerDriverFactoryInterface
@@ -27,6 +28,7 @@ class LoggerDriverFactory implements LoggerDriverFactoryInterface
         return match ($driverName) {
             "console" => $this->initConsoleDriver($driverConfiguration),
             "file" => $this->initFileDriver($driverConfiguration),
+			"sql" => $this->initSqlDriver($driverConfiguration),
             default => throw new Exception(sprintf(
                 "Unsupported logging driver `%s`. Change the value of option `default`.",
                 $driverName
@@ -56,4 +58,42 @@ class LoggerDriverFactory implements LoggerDriverFactoryInterface
 
         return new FileLoggerDriver($path, $format);
     }
+
+	/**
+	 * @param array $driverConfiguration
+	 *
+	 * @return LoggerDriverInterface
+	 *
+	 * @throws Exception
+	 */
+	public function initSqlDriver(array $driverConfiguration): LoggerDriverInterface {
+		$missingFields = [];
+		$requiredFields = [
+			"driver",
+			"host",
+			"dbname",
+			"username",
+			"password",
+			"charset",
+			"table"
+		];
+
+		foreach ($requiredFields as $requiredField) {
+			if (
+				!array_key_exists($requiredField, $driverConfiguration)
+				|| empty(trim($driverConfiguration[$requiredField]))
+			) {
+				$missingFields[] = $requiredField;
+			}
+		}
+
+		if (!empty($requiredField)) {
+			throw new Exception(
+				"Missing or empty configuration fields for SQLLog driver. The fields are: ",
+				implode(", ", $missingFields)
+			);
+		}
+
+    	return new SqlLoggerDriver($driverConfiguration);
+	}
 }
