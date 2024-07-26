@@ -6,6 +6,7 @@ on:
       - main
       - master
       - beta
+      - feature/semantic-versioning
 
 env:
   NODE_AUTH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
