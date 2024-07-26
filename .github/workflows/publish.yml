@@ -28,7 +28,7 @@ jobs:
           # npm config set //npm.pkg.github.com/:_authToken ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           npm ci
       - name: Build
-        run: tsc
+#        run: tsc
       - name: Publish
         env:
           GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
