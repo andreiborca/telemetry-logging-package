@@ -1,0 +1,40 @@
+name: Publish Release
+
+on:
+  push:
+    branches:
+      - main
+      - master
+      - beta
+
+env:
+  NODE_AUTH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install dependencies
+        run: |
+          # Required when publishing a package
+          # npm config set //npm.pkg.github.com/:_authToken ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          npm ci
+#      - name: Build
+#        run: tsc
+      - name: Publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          GH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          # Required when publishing a package
+          # NPM_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          GIT_AUTHOR_NAME: Andrei Borca
+          GIT_AUTHOR_EMAIL: andreiborca@gmail.com
+          GIT_COMMITTER_NAME: Andrei Borca
+          GIT_COMMITTER_EMAIL: andreiborca@gmail.com
+        run: npx semantic-release
