@@ -2,6 +2,7 @@
 
 namespace App\services;
 
+use App\Exceptions\MissingLogDriverConfigurationException;
 use App\Interfaces\LoggerDriverFactoryInterface;
 use App\Interfaces\LoggerInterface;
 use App\Interfaces\TransactionalLoggerInterface;
@@ -47,8 +48,9 @@ class LoggingServiceProvider
         $defaultDriver = $this->config['default'];
         $driversConfig = $this->config['drivers'];
 
-        // TODO: add validation of configuration that configuration for the
-        // mentioned driver under default key exists under drivers key
+		if (!array_key_exists($defaultDriver, $driversConfig)) {
+			throw new MissingLogDriverConfigurationException($defaultDriver);
+		}
 
         $driver = $this->driverFactory->initDriver($defaultDriver, $driversConfig[$defaultDriver]);
 
