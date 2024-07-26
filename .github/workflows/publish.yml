@@ -27,7 +27,7 @@ jobs:
           # Required when publishing a package
           # npm config set //npm.pkg.github.com/:_authToken ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           npm ci
-      - name: Build
+#      - name: Build
 #        run: tsc
       - name: Publish
         env:
