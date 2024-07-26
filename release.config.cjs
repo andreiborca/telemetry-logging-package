@@ -1,3 +1,6 @@
+/**
+ * @type {import('semantic-release').GlobalConfig}
+ */
 module.exports = {
     branches: [
         {'name': 'main', 'channel': 'latest', 'prerelease': false},
