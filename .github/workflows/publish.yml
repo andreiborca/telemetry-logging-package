@@ -6,8 +6,6 @@ on:
       - main
       - master
       - beta
-      - 'feature/*'
-      - 'fix/*'
 
 env:
   NODE_AUTH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}

@@ -3,8 +3,7 @@ module.exports = {
         {'name': 'main', 'channel': 'latest', 'prerelease': false},
         {'name': 'master', 'channel': 'latest', 'prerelease': false},
         {'name': 'beta', 'prerelease': true},
-        {'name': 'feature/*', 'prerelease': true},
-        {'name': 'fix/*', 'prerelease': true},
+        {'name': 'feature/semantic-versioning', 'prerelease': true},
     ],
     debug: true,
     plugins: [
