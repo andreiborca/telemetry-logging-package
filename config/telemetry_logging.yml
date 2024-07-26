@@ -1,0 +1,9 @@
+default: file
+
+drivers:
+  console:
+    format: text
+
+  file:
+    path: logs/logs.log
+    format: json
