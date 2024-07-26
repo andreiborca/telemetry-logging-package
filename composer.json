@@ -25,5 +25,10 @@
     "require": {
         "symfony/yaml": "^7.1",
         "ramsey/uuid": "^4.7"
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "php scripts/telemtry-logging-post-install.php"
+        ]
     }
 }
