@@ -5,8 +5,8 @@ module.exports = {
     branches: [
         {'name': 'main', 'channel': 'latest', 'prerelease': false},
         {'name': 'master', 'channel': 'latest', 'prerelease': false},
-        {'name': 'beta', 'prerelease': true},
-        {'name': 'feature/semantic-versioning', 'prerelease': true},
+        {'name': 'beta', 'prerelease': "beta"},
+        {'name': 'feature/semantic-versioning', 'prerelease': "beta"},
     ],
     debug: true,
     plugins: [
